@@ -443,7 +443,7 @@ private:
 
         printf("%s\n", ("[INFO] Saving cloud: " + cloudName).c_str());
         writer.writeBinary(cloudName, *cloud);
-        printf("%s\n", ("[INFO] Saving color: " + cloudName).c_str());
+        printf("%s\n", ("[INFO] Saving color: " + colorName).c_str());
         cv::imwrite(colorName, color, params);
         printf("%s\n", ("[INFO] Saving depth: " + depthName).c_str());
         cv::imwrite(depthName, depth, params);

@@ -1,18 +1,22 @@
 <launch>
-  <arg name="serial_no"             default="845112071101"/>
-  <arg name="json_file_path"        default="$(find realsense2_viewer)/config/D435i.json"/>
+  <arg name="serial_no"             default=""/>
+  <arg name="json_file_path"        default="$(find realsense2_viewer)/config/D435i-new.json"/>
   <arg name="camera"                default="camera"/>
+  <arg name="clip_distance"         default="1.5"/>
+  <arg name="width"                 default="1280"/>
+  <arg name="height"                default="720"/>
+
 
   <!-- color max:1920x1080 depth max:1280x720 -->
   <group ns="$(arg camera)">
     <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
       <arg name="serial_no"         value="$(arg serial_no)"/>
       <arg name="json_file_path"    value="$(arg json_file_path)"/>
-      <arg name="depth_width"       value="640"/>
-      <arg name="depth_height"      value="480"/>
+      <arg name="depth_width"       value="$(arg width)"/>
+      <arg name="depth_height"      value="$(arg height)"/>
       <arg name="depth_fps"         value="15"/>
-      <arg name="color_width"       value="640"/>
-      <arg name="color_height"      value="480"/>
+      <arg name="color_width"       value="$(arg width)"/>
+      <arg name="color_height"      value="$(arg height)"/>
       <arg name="color_fps"         value="15"/>
       <arg name="enable_depth"      value="true"/>
       <arg name="enable_color"      value="true"/>
@@ -24,10 +28,10 @@
 
       <arg name="enable_pointcloud" value="true"/>
       <arg name="align_depth"       value="true"/>
-      <arg name="enable_sync"       value="true"/>
+      <arg name="enable_sync"       value="false"/>
       <arg name="tf_prefix"         value="$(arg camera)"/>
 
-      <arg name="clip_distance"     value="1.5" />
+      <arg name="clip_distance"     value="$(arg clip_distance)" />
     </include>
 
     <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_camera)/rviz/pointcloud.rviz" required="true" /> -->
