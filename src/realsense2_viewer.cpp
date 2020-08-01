@@ -417,7 +417,7 @@ private:
         time_t t = time(nullptr);
         char ch[64] = {0};
 //        strftime(ch, sizeof(ch)-1, "%Y-%m-%d %H-%M-%S", localtime(&t));
-        strftime(ch, sizeof(ch)-1, "%m%d", localtime(&t));     //年-月-日 时-分-秒
+        strftime(ch, sizeof(ch)-1, "%y%m%d", localtime(&t));     //年-月-日 时-分-秒
         return ch;
     }
 
@@ -429,9 +429,9 @@ private:
             oss.str("");
             oss << std::setfill('0') << std::setw(2) << frame;
             baseName = oss.str();
-            cloudName = "./" + baseName + "_cloud_" + getCurrentTimeStr() + ".pcd";
-            colorName = "./" + baseName + "_color_" + getCurrentTimeStr() + ".jpg";
-            depthName = "./" + baseName + "_depth_" + getCurrentTimeStr() + ".png";
+            cloudName = "./" + getCurrentTimeStr() + "_" + baseName + "_cloud" +  + ".pcd";
+            colorName = "./" + getCurrentTimeStr() + "_" + baseName + "_color" +  + ".jpg";
+            depthName = "./" + getCurrentTimeStr() + "_" + baseName + "_depth" +  + ".png";
 
             if ((access(cloudName.c_str(), 0)) == 0) { // 0已存在,-1不存在
                 frame++;
@@ -503,7 +503,7 @@ int main(int argc, char **argv)
     std::string ns = R2_DEFAULT_NS;
     std::string topicColor = R2_TOPIC_IMAGE_COLOR R2_TOPIC_IMAGE_RAW;
     std::string topicDepth = R2_TOPIC_ALIGNED_DEPTH R2_TOPIC_IMAGE_RAW;
-    bool useExact = true;
+    bool useExact = false; // D435i could'n useExact now!
     bool useCompressed = false;
     Receiver::Mode mode = Receiver::BOTH;
 

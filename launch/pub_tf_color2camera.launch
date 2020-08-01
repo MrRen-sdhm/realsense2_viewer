@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Get tf from camera_color_optical_frame to camera_link, then publish it
+    "roslaunch realsense2_viewer realsense2_viewer.launch", "rosrun tf tf_echo camera_color_optical_frame camera_link" 
+    or "rosrun mantra_application get_camera_trans.py"-->
+
+    <!-- 846112071730 -->
+    <node pkg="tf" type="static_transform_publisher" name="camera_color_optical2camera_link_broadcaster"
+          args="0.0148678911236, 0.0001168803036, 0.0003236060071, 0.5024931326043, -0.4987218403257, 0.4988557547331, 0.4999200932216 camera_color_optical_frame camera_link 10" />
+</launch>

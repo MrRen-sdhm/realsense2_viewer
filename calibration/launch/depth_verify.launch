@@ -1,0 +1,38 @@
+<launch>
+    <arg name="marker_size" doc="Size of the ArUco marker used, in meters" default="0.1" />
+    <arg name="marker_id" doc="The ID of the ArUco marker used" default="100" />
+
+    <arg name="enable_depth" default="false" />
+
+    <!-- <arg name="camera_info_file" default="845112071101_camera_info.yaml" /> -->
+    <arg name="camera_info_file" default="846112071730_camera_info.yaml" />
+
+
+    <!-- start the Realsense -->
+    <include file="$(find realsense2_viewer)/launch/realsense2_viewer.launch" >
+        <arg name="width" value="640" />
+        <arg name="height" value="480" />
+        <arg name="enable_depth" value="$(arg enable_depth)"/>
+    </include>
+
+    <!-- publish custom camera info -->
+    <node name="camera_info_publisher" pkg="realsense2_viewer" type="yaml_to_camera_info_publisher.py" output="screen">
+        <param name="camera_info_file" value="$(find realsense2_viewer)/calibration/$(arg camera_info_file)" />
+    </node>
+
+    <!-- start ArUco -->
+    <node name="aruco_tracker" pkg="aruco_ros" type="single">
+        <!-- <remap from="/camera_info" to="/camera/color/camera_info" /> -->
+        <remap from="/image" to="/camera/color/image_raw" />
+        <param name="image_is_rectified" value="false" />
+        <param name="marker_size"        value="$(arg marker_size)" />
+        <param name="marker_id"          value="$(arg marker_id)" />
+        <param name="reference_frame"    value="camera_color_optical_frame" />
+        <param name="camera_frame"       value="camera_color_optical_frame" />
+        <param name="marker_frame"       value="aruco_marker" />
+    </node>
+
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false"
+        args="-d $(find realsense2_viewer)/calibration/launch/depth_verify.rviz" output="screen" />
+
+</launch>
